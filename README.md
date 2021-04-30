@@ -34,7 +34,7 @@ console.info(format.util.serialize({ foo: 'bar' }))
 
 ## API
 
-https://ipld.github.io/blockcodec-to-ipld-format/
+https://ipld.github.io/js-blockcodec-to-ipld-format/
 
 ## Contribute
 
