@@ -1,0 +1,31 @@
+{
+  "name": "blockcodec-to-ipld-format",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "test": "echo \"Checks out\"",
+    "build": "aegir build",
+    "lint": "aegir ts -p check && aegir lint",
+    "release": "aegir release --docs",
+    "release-minor": "aegir release --type minor --docs",
+    "release-major": "aegir release --type major --docs"
+  },
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipld/js-blockcodec-to-ipld-format.git"
+  },
+  "devDependencies": {
+    "aegir": "^33.1.2"
+  },
+  "dependencies": {
+    "interface-ipld-format": "^1.0.0",
+    "multicodec": "^3.0.1",
+    "multiformats": "^7.0.0",
+    "multihashes": "^4.0.2",
+    "multihashing-async": "^2.1.2"
+  }
+}
