@@ -1,0 +1,149 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>blockcodec-to-ipld-format - v0.0.1</title>
+	<meta name="description" content="Documentation for blockcodec-to-ipld-format - v0.0.1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">blockcodec-to-ipld-format - v0.0.1</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>blockcodec-to-ipld-format - v0.0.1</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#blockcodec-to-ipld-format-" id="blockcodec-to-ipld-format-" style="color: inherit; text-decoration: none;">
+					<h1>blockcodec-to-ipld-format <!-- omit in toc --></h1>
+				</a>
+				<blockquote>
+					<p>Convert a <a href="https://github.com/multiformats/js-multiformats/blob/master/src/codecs/interface.ts#L21">BlockCodec</a> from the <a href="https://www.npmjs.com/package/multiformats">multiformats</a> module into an
+					<a href="https://www.npmjs.com/package/interface-ipld-format">IPLD Format</a> for use with the <a href="https://www.npmjs.com/package/ipld">IPLD</a> module.</p>
+				</blockquote>
+				<a href="#table-of-contents-" id="table-of-contents-" style="color: inherit; text-decoration: none;">
+					<h2>Table of contents <!-- omit in toc --></h2>
+				</a>
+				<ul>
+					<li><a href="#install">Install</a><ul>
+							<li><a href="#use">Use</a></li>
+						</ul>
+					</li>
+					<li><a href="#api">API</a></li>
+					<li><a href="#contribute">Contribute</a></li>
+					<li><a href="#license">License</a></li>
+				</ul>
+				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+					<h2>Install</h2>
+				</a>
+				<pre><code class="language-console">$ npm i blockcodec-to-ipld-format
+</code></pre>
+				<a href="#use" id="use" style="color: inherit; text-decoration: none;">
+					<h3>Use</h3>
+				</a>
+				<pre><code class="language-javascript"><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">convert</span><span style="color: #000000"> } = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;blockcodec-to-ipld-format&#039;</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">dagCbor</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;@ipld/dag-cbor&#039;</span><span style="color: #000000">)</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">format</span><span style="color: #000000"> = </span><span style="color: #795E26">convert</span><span style="color: #000000">(</span><span style="color: #001080">dagCbor</span><span style="color: #000000">)</span>
+
+<span style="color: #008000">// use interface-ipld-format methods</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">info</span><span style="color: #000000">(</span><span style="color: #001080">format</span><span style="color: #000000">.</span><span style="color: #001080">codec</span><span style="color: #000000">)</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">info</span><span style="color: #000000">(</span><span style="color: #001080">format</span><span style="color: #000000">.</span><span style="color: #001080">defaultHashAlg</span><span style="color: #000000">)</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">info</span><span style="color: #000000">(</span><span style="color: #001080">format</span><span style="color: #000000">.</span><span style="color: #001080">util</span><span style="color: #000000">.</span><span style="color: #795E26">serialize</span><span style="color: #000000">({ </span><span style="color: #001080">foo:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bar&#039;</span><span style="color: #000000"> }))</span>
+<span style="color: #008000">// etc..</span>
+</code></pre>
+				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+					<h2>API</h2>
+				</a>
+				<p><a href="https://ipld.github.io/blockcodec-to-ipld-format/">https://ipld.github.io/blockcodec-to-ipld-format/</a></p>
+				<a href="#contribute" id="contribute" style="color: inherit; text-decoration: none;">
+					<h2>Contribute</h2>
+				</a>
+				<p>Feel free to join in. All welcome. Open an <a href="https://github.com/ipld/blockcodec-to-ipld-format/issues">issue</a>!</p>
+				<p>This repository falls under the IPFS <a href="https://github.com/ipfs/community/blob/master/code-of-conduct.md">Code of Conduct</a>.</p>
+				<p><a href="https://github.com/ipfs/community/blob/master/CONTRIBUTING.md"><img src="https://cdn.rawgit.com/jbenet/contribute-ipfs-gif/master/img/contribute.gif" alt=""></a></p>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
+				<p><a href="LICENSE">MIT</a></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#blockcodec" class="tsd-kind-icon">Block<wbr>Codec</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#ipldformat" class="tsd-kind-icon">IPLDFormat</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#convert" class="tsd-kind-icon">convert</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
