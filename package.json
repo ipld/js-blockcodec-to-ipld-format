@@ -1,6 +1,6 @@
 {
   "name": "blockcodec-to-ipld-format",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "src/index.js",
   "types": "dist/src/index.d.ts",
@@ -31,5 +31,8 @@
     "multiformats": "^7.0.0",
     "multihashes": "^4.0.2",
     "multihashing-async": "^2.1.2"
-  }
+  },
+  "contributors": [
+    "achingbrain <alex@achingbrain.net>"
+  ]
 }
