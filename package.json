@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "buffer": "^6.0.3",
+    "cids": "^1.1.6",
     "interface-ipld-format": "^1.0.0",
     "multiformats": "^7.0.0",
     "multihashes": "^4.0.2",
