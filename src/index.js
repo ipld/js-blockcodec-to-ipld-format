@@ -131,12 +131,18 @@ function replaceCids (obj, test, convertCid) {
     return convertCid(obj)
   }
 
+  // skip these types
   if (obj instanceof String ||
       typeof obj === 'string' ||
       typeof obj === 'function' ||
+      typeof obj === 'number' ||
       isFinite(obj) ||
+      Number.isNaN(obj) ||
+      obj === Infinity ||
+      obj === -Infinity ||
       obj === true ||
       obj == null ||
+      obj instanceof ArrayBuffer ||
       ArrayBuffer.isView(obj)) {
     return obj
   }
