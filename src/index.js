@@ -1,7 +1,8 @@
 'use strict'
 
-const CID = require('cids')
-const mc = require('multicodec')
+const { CID } = require('multiformats')
+const LegacyCID = require('cids')
+const { Buffer } = require('buffer')
 const mha = require('multihashing-async')
 const mh = mha.multihash
 
@@ -32,7 +33,7 @@ const mh = mha.multihash
  */
 function convert (blockCodec, options = {}) {
   // @ts-ignore BlockCodec.name is a string, we need a CodecName
-  const codec = mc.getCodeFromName(blockCodec.name)
+  const codec = blockCodec.name
   const defaultHashAlg = mh.names[options.defaultHashAlg || 'sha2-256']
 
   const resolve = options.resolve || function (buf, path) {
@@ -46,7 +47,7 @@ function convert (blockCodec, options = {}) {
         throw new Error('Not found')
       }
 
-      if (CID.isCID(value)) {
+      if (LegacyCID.isCID(value)) {
         return { value, remainderPath: entries.join('/') }
       }
     }
@@ -61,7 +62,7 @@ function convert (blockCodec, options = {}) {
     if (typeof value === 'object') {
       for (const [key, val] of Object.entries(value)) {
         yield ['', ...path, key].join('/')
-        if (typeof val === 'object' && !Buffer.isBuffer(val) && !CID.isCID(val)) {
+        if (typeof val === 'object' && !Buffer.isBuffer(val) && !LegacyCID.isCID(val)) {
           yield * _tree(val, [...path, key])
         }
       }
@@ -70,12 +71,13 @@ function convert (blockCodec, options = {}) {
 
   /** @type {IPLDFormat<T>} */
   const format = {
-    codec,
+    // @ts-ignore BlockCodec.code is a number, we need a CodecCode
+    codec: blockCodec.code,
     defaultHashAlg,
 
     util: {
-      serialize: (node) => blockCodec.encode(node),
-      deserialize: (buf) => blockCodec.decode(buf),
+      serialize: (node) => blockCodec.encode(legacyCidToCids(node)),
+      deserialize: (buf) => cidsToLegacyCids(blockCodec.decode(buf)),
       cid: async (buf, options = {}) => {
         const opts = {
           cidVersion: options.cidVersion == null ? 1 : options.cidVersion,
@@ -84,7 +86,7 @@ function convert (blockCodec, options = {}) {
 
         const hashName = mh.codes[opts.hashAlg]
         const hash = await mha(buf, hashName)
-        const cid = new CID(opts.cidVersion, codec, hash)
+        const cid = new LegacyCID(opts.cidVersion, codec, hash)
 
         return cid
       }
@@ -99,6 +101,59 @@ function convert (blockCodec, options = {}) {
   }
 
   return format
+}
+
+/**
+ * @template T
+ * @param {T} obj
+ * @returns {T}
+ */
+function cidsToLegacyCids (obj) {
+  return replaceCids(obj, obj => obj instanceof CID, (obj) => new LegacyCID(obj.bytes))
+}
+
+/**
+ * @template T
+ * @param {T} obj
+ * @returns {T}
+ */
+function legacyCidToCids (obj) {
+  return replaceCids(obj, obj => obj instanceof LegacyCID, (obj) => CID.decode(obj.bytes))
+}
+
+/**
+ * @param {any} obj
+ * @param {(obj: any) => boolean} test
+ * @param {(obj: CID | LegacyCID) => LegacyCID | CID} convertCid
+ */
+function replaceCids (obj, test, convertCid) {
+  if (test(obj)) {
+    return convertCid(obj)
+  }
+
+  if (obj instanceof String ||
+      typeof obj === 'string' ||
+      typeof obj === 'function' ||
+      isFinite(obj) ||
+      obj === true ||
+      obj == null ||
+      ArrayBuffer.isView(obj)) {
+    return obj
+  }
+
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i++) {
+      obj[i] = replaceCids(obj[i], test, convertCid)
+    }
+  } else {
+    for (const key in obj) {
+      try {
+        obj[key] = replaceCids(obj[key], test, convertCid)
+      } catch {}
+    }
+  }
+
+  return obj
 }
 
 module.exports = {
