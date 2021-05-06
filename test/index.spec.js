@@ -8,10 +8,10 @@ const jsonCodec = require('multiformats/codecs/json')
 const { sha256 } = require('multiformats/hashes/sha2')
 const { CID } = require('multiformats/cid')
 const LegacyCID = require('cids')
-const { Buffer } = require('buffer')
 const mha = require('multihashing-async')
 const mh = mha.multihash
 const all = require('it-all')
+const encoder = new TextEncoder()
 
 /**
  * @template T
@@ -31,7 +31,7 @@ describe('blockcodec-to-ipld-format', () => {
   before(async () => {
     raw = convert(rawCodec)
     json = convert(jsonCodec)
-    link = await raw.util.cid(Buffer.from('test'))
+    link = await raw.util.cid(encoder.encode('test'))
 
     custom = convert({
       name: 'custom',
@@ -53,26 +53,26 @@ describe('blockcodec-to-ipld-format', () => {
   })
 
   it('encode/decode raw', () => {
-    const buff = raw.util.serialize(Buffer.from('test'))
-    expect(buff).to.equalBytes(Buffer.from('test'))
-    expect(raw.util.deserialize(buff)).to.equalBytes(Buffer.from('test'))
+    const buff = raw.util.serialize(encoder.encode('test'))
+    expect(buff).to.equalBytes(encoder.encode('test'))
+    expect(raw.util.deserialize(buff)).to.equalBytes(encoder.encode('test'))
   })
 
   it('encode/decode json', () => {
     const buff = json.util.serialize({ hello: 'world' })
-    expect(buff).to.equalBytes(Buffer.from(JSON.stringify({ hello: 'world' })))
+    expect(buff).to.equalBytes(encoder.encode(JSON.stringify({ hello: 'world' })))
     expect(json.util.deserialize(buff)).to.deep.equal({ hello: 'world' })
   })
 
   it('cid', async () => {
-    const cid = await raw.util.cid(Buffer.from('test'))
+    const cid = await raw.util.cid(encoder.encode('test'))
     expect(cid.version).to.equal(1)
     expect(cid.codec).to.equal('raw')
-    const { bytes } = await sha256.digest(Buffer.from('test'))
+    const { bytes } = await sha256.digest(encoder.encode('test'))
     expect(cid.multihash).to.equalBytes(bytes)
 
     const msg = 'not yet supported'
-    await expect(raw.util.cid(Buffer.from('test'), { hashAlg: mh.names.md5 })).to.eventually.be.rejectedWith(msg)
+    await expect(raw.util.cid(encoder.encode('test'), { hashAlg: mh.names.md5 })).to.eventually.be.rejectedWith(msg)
 
     expect(cid).to.be.an.instanceOf(LegacyCID)
   })

@@ -2,7 +2,6 @@
 
 const { CID } = require('multiformats')
 const LegacyCID = require('cids')
-const { Buffer } = require('buffer')
 const mha = require('multihashing-async')
 const mh = mha.multihash
 
@@ -62,7 +61,7 @@ function convert (blockCodec, options = {}) {
     if (typeof value === 'object') {
       for (const [key, val] of Object.entries(value)) {
         yield ['', ...path, key].join('/')
-        if (typeof val === 'object' && !Buffer.isBuffer(val) && !LegacyCID.isCID(val)) {
+        if (typeof val === 'object' && !(val instanceof Uint8Array) && !LegacyCID.isCID(val)) {
           yield * _tree(val, [...path, key])
         }
       }
