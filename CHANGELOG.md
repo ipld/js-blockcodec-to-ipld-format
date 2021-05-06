@@ -1,3 +1,7 @@
+# [1.0.0](https://github.com/ipld/js-blockcodec-to-ipld-format/compare/v0.0.5...v1.0.0) (2021-05-06)
+
+
+
 ## [0.0.5](https://github.com/ipld/js-blockcodec-to-ipld-format/compare/v0.0.4...v0.0.5) (2021-05-04)
 
 
