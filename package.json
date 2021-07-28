@@ -23,13 +23,14 @@
     "url": "git+https://github.com/ipld/js-blockcodec-to-ipld-format.git"
   },
   "devDependencies": {
-    "aegir": "^33.1.2",
-    "it-all": "^1.0.5"
+    "aegir": "^34.0.3",
+    "it-all": "^1.0.5",
+    "util": "^0.12.4"
   },
   "dependencies": {
     "cids": "^1.1.6",
     "interface-ipld-format": "^1.0.0",
-    "multiformats": "^7.0.0",
+    "multiformats": "^9.4.3",
     "multihashes": "^4.0.2",
     "multihashing-async": "^2.1.2"
   },
